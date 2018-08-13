@@ -4,8 +4,8 @@
   font-family: sans-serif;
 }
 
-.trading-app {
-  width: 40%;
+.trading-panel {
+  width: 35%;
   margin: 15% auto;
   background-color: #e8e8e8;
   border: 2px solid #5b5b5c;
@@ -29,42 +29,70 @@
 
 .fx-tile {
   border: 2px solid #dadddd;
-  margin: 20px auto 20px;
+  background-color: #ffffff;
+  margin: 20px 0;
   flex-basis: 40%;
   height: 65px;
-  background-color: #ffffff;
+  border-radius: 10px;
 }
 
-.fx-tile h3 {
+.fx-tile.sell:hover {
+  border: 3px solid #53a9bb;
+}
+
+.fx-tile.sell:hover,
+.fx-tile.sell:hover span {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+.fx-tile.sell {
+  -webkit-clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
+  clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
+}
+.fx-tile.buy {
+  -webkit-clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
+  clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
+}
+.fx-tile.buy:hover {
+  border: 3px solid #53a9bb;
+}
+.fx-tile.buy:hover,
+.fx-tile.buy:hover span {
+  background-color: #7fd13b;
+  color: #ffffff;
+}
+h3 {
   font-size: 0.8em;
   margin-bottom: 10px;
 }
-
 .fx-tile h2 {
   font-size: 1.6em;
   margin-bottom: 5px;
 }
-
 .sell {
   text-align: left;
   color: #c70a12;
-  border-radius: 5px 20px 20px 5px;
+  /* border-radius: 5px 20px 20px 5px; */
+}
+.sell-price {
+  color: #c70a12;
 }
 .buy {
   text-align: right;
   color: #6c8c33;
-  border-radius: 20px 5px 5px 20px;
+  /* border-radius: 20px 5px 5px 20px; */
 }
-
-.amount-big {
+.buy-proce {
+  color: #6c8c33;
+}
+.price-big {
   font-size: 1.4em;
   font-weight: 700;
 }
-
-.amount-sup {
+.price-sup {
   vertical-align: super;
 }
-
 .arrow-box {
   flex-basis: 10%;
   height: 60px;
@@ -75,13 +103,11 @@
   align-content: center;
   align-items: center;
 }
-
 .arrow-up {
   color: #c70a12;
   margin: 0;
   padding: 0;
 }
-
 .arrow-down {
   color: #6c8c33;
   margin: 0;
