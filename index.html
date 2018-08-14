@@ -13,38 +13,52 @@
 
 <body>
     <main>
-        <section class="trading-panel">
-            <div class="app-head">
-                <h1>USD CHF</h1>
-            </div>
-            <div class="trading-container">
-                <div class="fx-tile sell">
-                    <h3>Sell
-                        <span class="selling-currency">USD</span>
-                    </h3>
-                    <h2>0.99
-                        <span class="price-big sell-price">04</span>
-                        <span class="price-sup sell-price">3</span>
-                    </h2>
+        <section class="single-panel">
+            <!-- One panel -->
+            <div class="app-panel">
+                <div class="app-head">
+                    <h1 class="currency1">USD</h1>
+                    <h1 class="currency2">CHF</h1>
                 </div>
-                <div class="trapeze_sell"></div>
-                <div class="arrow-box">
-                    <i class="fas fa-caret-up arrow-up"></i>
-                    <i class="fas fa-caret-down arrow-down"></i>
-                </div>
-                <div class="fx-tile buy">
-                    <h3>Buy
-                        <span class="buying-currency">USD</span>
-                    </h3>
-                    <h2>0.99
-                        <span class="price-big buy-price">14</span>
-                        <span class="price-sup buy-price">3</span>
-                    </h2>
+                <div class="price-container">
+                    <div class="fx-tile sell">
+                        <h3>Sell
+                            <span class="selling-currency currency1">USD</span>
+                        </h3>
+                        <h2 class="sell1">0.99</h2>
+                        <h2>
+                            <span class="price-big sell-price sell2">04</span>
+                        </h2>
+                        <h2>
+                            <span class="price-sup sell-price sell3">3</span>
+                        </h2>
+                        </h2>
+                    </div>
+                    <div class="arrow-box">
+                        <i class="fas "></i>
+                    </div>
+                    <div class="fx-tile buy">
+                        <h3>Buy
+                            <span class="buying-currency currency1">USD</span>
+                        </h3>
+                        <h2 class="buy1">0.99</h2>
+                        <h2>
+                            <span class="price-big buy-price buy2">14</span>
+                        </h2>
+                        <h2>
+                            <span class="price-sup buy-price buy3">3</span>
+                        </h2>
+                        </h2>
+                    </div>
                 </div>
             </div>
         </section>
-    </main>
+        <!-- Multiplied panels -->
+        <section class="multiple-panels">
 
+        </section>
+    </main>
+    <script src="script.js"></script>
 </body>
 
 </html>

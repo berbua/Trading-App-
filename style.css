@@ -4,9 +4,9 @@
   font-family: sans-serif;
 }
 
-.trading-panel {
-  width: 35%;
-  margin: 15% auto;
+.app-panel {
+  width: 30%;
+  margin: 40px auto 40px;
   background-color: #e8e8e8;
   border: 2px solid #5b5b5c;
   border-radius: 3px;
@@ -20,7 +20,11 @@
   color: #fafafa;
   text-align: center;
 }
-.trading-container {
+
+.app-head h1 {
+  display: inline;
+}
+.price-container {
   display: flex;
   justify-content: space-around;
   align-content: center;
@@ -31,7 +35,7 @@
   border: 2px solid #dadddd;
   background-color: #ffffff;
   margin: 20px 0;
-  flex-basis: 40%;
+  flex-basis: 43%;
   height: 65px;
   border-radius: 10px;
 }
@@ -69,6 +73,7 @@ h3 {
 .fx-tile h2 {
   font-size: 1.6em;
   margin-bottom: 5px;
+  display: inline;
 }
 .sell {
   text-align: left;
@@ -94,22 +99,39 @@ h3 {
   vertical-align: super;
 }
 .arrow-box {
-  flex-basis: 10%;
-  height: 60px;
+  align-self: flex-start;
   font-size: 3em;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-content: center;
   align-items: center;
 }
-.arrow-up {
+
+.fa-caret-up {
   color: #c70a12;
   margin: 0;
   padding: 0;
 }
-.arrow-down {
+.fa-caret-down {
   color: #6c8c33;
   margin: 0;
   padding: 0;
+}
+
+/* Multiple panels */
+
+.multiple-panels {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border: 2px solid pink;
+}
+
+.multi {
+  margin: 5px;
+  flex-basis: 30%;
 }
