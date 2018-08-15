@@ -16,9 +16,24 @@ function addPanelsToDatasource() {
 }
 addPanelsToDatasource();
 
+//update of selling pirce
+function updateSellPrice(panel, sellPr) {
+  panel.querySelector(".sell1").textContent = sellPr.toString().slice(0, 4);
+  panel.querySelector(".sell2").textContent = sellPr.toString().slice(4, 6);
+  panel.querySelector(".sell3").textContent = sellPr.toString().slice(6);
+}
+
+//update of buying price
+
+function updateBuyPrice(panel, buyPr) {
+  panel.querySelector(".buy1").textContent = buyPr.toString().slice(0, 4);
+  panel.querySelector(".buy2").textContent = buyPr.toString().slice(4, 6);
+  panel.querySelector(".buy3").textContent = buyPr.toString().slice(4, 6);
+}
+
 function panelDataUpdate() {
   for (let i = 0; i < datasource.length; i++) {
-    //update panel currencies
+    //update currencies
     let currentPanel = document.getElementById(datasource[i].panel);
     let currentCurrency1 = currentPanel.querySelectorAll(".currency1");
     let currentCurrency2 = currentPanel.querySelectorAll(".currency2");
@@ -32,32 +47,21 @@ function panelDataUpdate() {
     const priceDigits = 7;
     let currentSellPriceStr = datasource[i].sell.toString();
     let currentBuyPriceStr = datasource[i].buy.toString();
-    if (currentSellPriceStr.length < 7) {
+    if (currentSellPriceStr.length < priceDigits) {
       for (let j = 0; j < priceDigits - currentSellPriceStr.length + 1; j++) {
         currentSellPriceStr += "0";
       }
     }
-    if (currentBuyPriceStr.length < 7) {
+    if (currentBuyPriceStr.length < priceDigits) {
       for (let k = 0; k < priceDigits - currentBuyPriceStr.length + 1; k++) {
         currentBuyPriceStr += "0";
       }
     }
+    // Sell price update
+    updateSellPrice(currentPanel, datasource[i].sell);
 
-    // Sell price update according to datasource
-    const sellPr1 = currentPanel.querySelector(".sell1");
-    const sellPr2 = currentPanel.querySelector(".sell2");
-    const sellPr3 = currentPanel.querySelector(".sell3");
-    sellPr1.textContent = currentSellPriceStr.slice(0, 4);
-    sellPr2.textContent = currentSellPriceStr.slice(4, 6);
-    sellPr3.textContent = currentSellPriceStr.slice(6);
-
-    // Buy price update according to datasource
-    let buyPr1 = currentPanel.querySelector(".buy1");
-    let buyPr2 = currentPanel.querySelector(".buy2");
-    let buyPr3 = currentPanel.querySelector(".buy3");
-    buyPr1.textContent = currentBuyPriceStr.slice(0, 4);
-    buyPr2.textContent = currentBuyPriceStr.slice(4, 6);
-    buyPr3.textContent = currentBuyPriceStr.slice(6);
+    // Buy price update
+    updateBuyPrice(currentPanel, datasource[i].buy);
   }
 }
 panelDataUpdate();
@@ -71,11 +75,10 @@ function addNewPriceToDatasource() {
 }
 addNewPriceToDatasource();
 
-//Update buying price
-function buyPriceUpdate() {
+//Update buying price +- 10%
+function refreshBuyPrice() {
   const panels = document.querySelectorAll(".app-panel");
   panels.forEach(app => {
-    let currentPanel = app.id;
     let arrow = app.querySelector(".arrow-box").firstElementChild;
     let buyPrice = datasource[parseInt(app.id.toString().slice(5)) - 1].buy;
     let buyPriceNew = buyPrice;
@@ -88,16 +91,14 @@ function buyPriceUpdate() {
     // diff = 0 -> subtract 10%
     if (difference === 0) {
       buyPriceNew -= 0.1 * buyPrice;
-      arrow.classList.add("fa-caret-up");
+      arrow.classList.add("fa-caret-down");
     } else {
       // diff = 1 -> add 10%
       buyPriceNew += 0.1 * buyPrice;
-      arrow.classList.add("fa-caret-down");
+      arrow.classList.add("fa-caret-up");
     }
     //Update panel buy prices
-    app.querySelector(".buy1").textContent = buyPriceNew.toString().slice(0, 4);
-    app.querySelector(".buy2").textContent = buyPriceNew.toString().slice(4, 6);
-    app.querySelector(".buy3").textContent = buyPriceNew.toString().slice(6);
+    updateBuyPrice(app, buyPriceNew);
   });
 }
 
@@ -108,7 +109,7 @@ let testInterval;
 
 function startTesting() {
   running = true;
-  testInterval = setInterval(buyPriceUpdate, 1000);
+  testInterval = setInterval(refreshBuyPrice, 1000);
 }
 
 function stopTesting() {
