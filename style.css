@@ -1,11 +1,14 @@
+/* General */
 * {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
 }
 
+/* Single app*/
+
 .app-panel {
-  width: 30%;
+  flex-basis: 30%;
   margin: 40px auto 40px;
   background-color: #e8e8e8;
   border: 2px solid #5b5b5c;
@@ -35,11 +38,22 @@
   border: 2px solid #dadddd;
   background-color: #ffffff;
   margin: 20px 0;
-  flex-basis: 43%;
+  flex-basis: 45%;
   height: 65px;
   border-radius: 10px;
 }
 
+/* Arrow shape */
+.fx-tile.sell {
+  -webkit-clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
+  clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
+}
+.fx-tile.buy {
+  -webkit-clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
+  clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
+}
+
+/* Tile Hovers */
 .fx-tile.sell:hover {
   border: 3px solid #53a9bb;
 }
@@ -50,14 +64,6 @@
   color: #ffffff;
 }
 
-.fx-tile.sell {
-  -webkit-clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
-  clip-path: polygon(0 0, 75% 0, 100% 45%, 100% 59%, 75% 100%, 0 100%);
-}
-.fx-tile.buy {
-  -webkit-clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
-  clip-path: polygon(100% 0, 25% 0, 0 45%, 0 60%, 25% 100%, 100% 100%);
-}
 .fx-tile.buy:hover {
   border: 3px solid #53a9bb;
 }
@@ -78,7 +84,6 @@ h3 {
 .sell {
   text-align: left;
   color: #c70a12;
-  /* border-radius: 5px 20px 20px 5px; */
 }
 .sell-price {
   color: #c70a12;
@@ -86,7 +91,6 @@ h3 {
 .buy {
   text-align: right;
   color: #6c8c33;
-  /* border-radius: 20px 5px 5px 20px; */
 }
 .buy-price {
   color: #6c8c33;
@@ -137,6 +141,51 @@ h3 {
 }
 
 .test {
-  margin: 0 auto 20px;
+  display: block;
+  border: none;
+  cursor: pointer;
+  margin: 20px auto;
   padding: 0.5em;
+  border-radius: 2px;
+}
+
+/* Media queries */
+
+@media screen and (max-width: 1250px) {
+  .app-panel {
+    flex-basis: 40%;
+    margin: 5px auto;
+  }
+}
+@media screen and (max-width: 1050px) {
+  .app-panel {
+    flex-basis: 45%;
+    margin: 5px auto;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .app-panel {
+    flex-basis: 70%;
+    margin: 5px auto;
+  }
+
+  .fx-tile {
+    flex-basis: 40%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .app-panel {
+    flex-basis: 80%;
+    margin: 5px auto;
+  }
+
+  .fx-tile {
+    flex-basis: 45%;
+  }
+
+  .fx-tile h2 {
+    font-size: 1.4em;
+  }
 }
