@@ -88,7 +88,7 @@ h3 {
   color: #6c8c33;
   /* border-radius: 20px 5px 5px 20px; */
 }
-.buy-proce {
+.buy-price {
   color: #6c8c33;
 }
 .price-big {
@@ -134,4 +134,9 @@ h3 {
 .multi {
   margin: 5px;
   flex-basis: 30%;
+}
+
+.test {
+  margin: 0 auto 20px;
+  padding: 0.5em;
 }
