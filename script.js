@@ -7,7 +7,7 @@ const datasource = [
   { pair: "EUR JPY", buy: 120.589, sell: 120.491 }
 ];
 
-//datasource update with panels
+//datasource update with panels property
 function addPanelsToDatasource() {
   const panels = document.querySelectorAll(".app-panel");
   for (i = 0; i < datasource.length; i++) {
@@ -16,55 +16,53 @@ function addPanelsToDatasource() {
 }
 addPanelsToDatasource();
 
-//update of selling pirce
+//update of selling pirce on single panel
 function updateSellPrice(panel, sellPr) {
   panel.querySelector(".sell1").textContent = sellPr.toString().slice(0, 4);
   panel.querySelector(".sell2").textContent = sellPr.toString().slice(4, 6);
-  panel.querySelector(".sell3").textContent = sellPr.toString().slice(6);
+  panel.querySelector(".sell3").textContent = sellPr.toString().slice(6, 7);
 }
 
-//update of buying price
+//update of buying price on single panel
 
 function updateBuyPrice(panel, buyPr) {
   panel.querySelector(".buy1").textContent = buyPr.toString().slice(0, 4);
   panel.querySelector(".buy2").textContent = buyPr.toString().slice(4, 6);
-  panel.querySelector(".buy3").textContent = buyPr.toString().slice(4, 6);
+  panel.querySelector(".buy3").textContent = buyPr.toString().slice(6, 7);
 }
 
-function panelDataUpdate() {
-  for (let i = 0; i < datasource.length; i++) {
-    //update currencies
-    let currentPanel = document.getElementById(datasource[i].panel);
-    let currentCurrency1 = currentPanel.querySelectorAll(".currency1");
-    let currentCurrency2 = currentPanel.querySelectorAll(".currency2");
-    currentCurrency1.forEach(element => {
-      element.innerHTML = datasource[i].pair.slice(0, 3);
-    });
-    currentCurrency2.forEach(element => {
-      element.innerHTML = datasource[i].pair.slice(4);
-    });
-    //check price digits amount, add 0's if too short
-    const priceDigits = 7;
-    let currentSellPriceStr = datasource[i].sell.toString();
-    let currentBuyPriceStr = datasource[i].buy.toString();
-    if (currentSellPriceStr.length < priceDigits) {
-      for (let j = 0; j < priceDigits - currentSellPriceStr.length + 1; j++) {
-        currentSellPriceStr += "0";
-      }
-    }
-    if (currentBuyPriceStr.length < priceDigits) {
-      for (let k = 0; k < priceDigits - currentBuyPriceStr.length + 1; k++) {
-        currentBuyPriceStr += "0";
-      }
-    }
-    // Sell price update
-    updateSellPrice(currentPanel, datasource[i].sell);
+// Currencies update on single panel
 
-    // Buy price update
-    updateBuyPrice(currentPanel, datasource[i].buy);
+function updateCurrency(appPanel, data) {
+  const currency1 = appPanel.querySelectorAll(".currency1");
+  const currency2 = appPanel.querySelectorAll(".currency2");
+  currency1.forEach(element => {
+    element.innerHTML = data.pair.slice(0, 3);
+  });
+  currency2.forEach(element => {
+    element.innerHTML = data.pair.slice(4);
+  });
+}
+
+//Check & update number of price digits if shorter than needed (digitsNo)
+
+function updateSellPriceDigits(digitsNo, sellPrV) {
+  if (sellPrV.length < digitsNo) {
+    for (let j = 0; j < digitsNo - sellPrV.length + 1; j++) {
+      sellPrV += "0";
+    }
   }
+  return sellPrV;
 }
-panelDataUpdate();
+
+function updateBuyPriceDigits(digitsNo, buyPrV) {
+  if (buyPrV.length < digitsNo) {
+    for (let k = 0; k < digitsNo - buyPrV.length + 1; k++) {
+      buyPrV += "0";
+    }
+  }
+  return buyPrV;
+}
 
 // Update buy price to change arrow color
 //Add new price property to datasource
@@ -75,31 +73,79 @@ function addNewPriceToDatasource() {
 }
 addNewPriceToDatasource();
 
-//Update buying price +- 10%
-function refreshBuyPrice() {
-  const panels = document.querySelectorAll(".app-panel");
-  panels.forEach(app => {
-    let arrow = app.querySelector(".arrow-box").firstElementChild;
-    let buyPrice = datasource[parseInt(app.id.toString().slice(5)) - 1].buy;
-    let buyPriceNew = buyPrice;
+//Assign arrow color to buy price deviation
 
-    //remove classes from the icon
-    arrow.classList.remove("fa-caret-up");
-    arrow.classList.remove("fa-caret-down");
+function updateArrowColor(arrowElement, currentBuyPrice, newBuyPr) {
+  let arr = arrowElement.querySelector(".arrow-box").firstElementChild;
+  arr.classList.remove("fa-caret-up");
+  arr.classList.remove("fa-caret-down");
+  if (currentBuyPrice < newBuyPr) {
+    arr.classList.add("fa-caret-up");
+  } else if (currentBuyPrice > newBuyPr) {
+    arr.classList.add("fa-caret-down");
+  } else if (currentBuyPrice === newBuyPr) {
+    arr.classList.remove("fa-caret-up");
+    arr.classList.remove("fa-caret-down");
+  }
+}
+
+//Update the data on panels
+
+function panelDataUpdate() {
+  for (let i = 0; i < datasource.length; i++) {
+    //price digits amount
+    let digit = 7;
+    let currentPanel = document.getElementById(datasource[i].panel);
+    //update currencies
+    updateCurrency(currentPanel, datasource[i]);
+
+    //update no of digits
+    let currentSelPr = updateSellPriceDigits(
+      digit,
+      datasource[i].sell.toString()
+    );
+    let currentBuyPr = updateBuyPriceDigits(
+      digit,
+      datasource[i].buy.toString()
+    );
+    // Sell price update
+    updateSellPrice(currentPanel, currentSelPr);
+    // Buy price update
+    updateBuyPrice(currentPanel, currentBuyPr);
+
+    //Adjust arrow color
+    let currentBuyPrNum = parseFloat(currentBuyPr);
+    let newBuyPrice = datasource[i].newPrice;
+
+    updateArrowColor(currentPanel, currentBuyPrNum, newBuyPrice);
+  }
+}
+
+panelDataUpdate();
+
+//Update new buying price +- 10%
+function refreshBuyPrice() {
+  for (let m = 0; m < datasource.length; m++) {
     //Pick from 0 to 1
-    let difference = Math.floor(Math.random() * 2);
-    // diff = 0 -> subtract 10%
-    if (difference === 0) {
-      buyPriceNew -= 0.1 * buyPrice;
-      arrow.classList.add("fa-caret-down");
+    let random = Math.floor(Math.random() * 2);
+    if (random === 0) {
+      datasource[m].buy = datasource[m].newPrice;
+      datasource[m].newPrice -= 0.1 * datasource[m].newPrice;
     } else {
       // diff = 1 -> add 10%
-      buyPriceNew += 0.1 * buyPrice;
-      arrow.classList.add("fa-caret-up");
+      datasource[m].buy = datasource[m].newPrice;
+      datasource[m].newPrice += 0.1 * datasource[m].newPrice;
     }
-    //Update panel buy prices
-    updateBuyPrice(app, buyPriceNew);
-  });
+    updateBuyPrice(
+      document.getElementById(datasource[m].panel),
+      datasource[m].newPrice
+    );
+    updateArrowColor(
+      document.getElementById(datasource[m].panel),
+      datasource[m].buy,
+      datasource[m].newPrice
+    );
+  }
 }
 
 //Price update interval assignment to button
