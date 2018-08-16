@@ -124,7 +124,7 @@ function panelDataUpdate() {
 panelDataUpdate();
 
 //Update new buying price +- 10%
-function refreshBuyPrice() {
+let refreshBuyPrice = function() {
   for (let m = 0; m < datasource.length; m++) {
     //Pick from 0 to 1
     let random = Math.floor(Math.random() * 2);
@@ -146,7 +146,7 @@ function refreshBuyPrice() {
       datasource[m].newPrice
     );
   }
-}
+};
 
 //Price update interval assignment to button
 const testBtn = document.getElementById("test_btn");
