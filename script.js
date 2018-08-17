@@ -7,33 +7,33 @@ const datasource = [
   { pair: "EUR JPY", buy: 120.589, sell: 120.491 }
 ];
 
-//datasource update with panels property
-function addPanelsToDatasource() {
+//datasource update with panel id property
+const addPanelsToDatasource = () => {
   const panels = document.querySelectorAll(".app-panel");
   for (i = 0; i < datasource.length; i++) {
     datasource[i].panel = panels[i].id;
   }
-}
+};
 addPanelsToDatasource();
 
 //update of selling pirce on single panel
-function updateSellPrice(panel, sellPr) {
+const updateSellPrice = (panel, sellPr) => {
   panel.querySelector(".sell1").textContent = sellPr.toString().slice(0, 4);
   panel.querySelector(".sell2").textContent = sellPr.toString().slice(4, 6);
   panel.querySelector(".sell3").textContent = sellPr.toString().slice(6, 7);
-}
+};
 
 //update of buying price on single panel
 
-function updateBuyPrice(panel, buyPr) {
+const updateBuyPrice = (panel, buyPr) => {
   panel.querySelector(".buy1").textContent = buyPr.toString().slice(0, 4);
   panel.querySelector(".buy2").textContent = buyPr.toString().slice(4, 6);
   panel.querySelector(".buy3").textContent = buyPr.toString().slice(6, 7);
-}
+};
 
 // Currencies update on single panel
 
-function updateCurrency(appPanel, data) {
+const updateCurrency = (appPanel, data) => {
   const currency1 = appPanel.querySelectorAll(".currency1");
   const currency2 = appPanel.querySelectorAll(".currency2");
   currency1.forEach(element => {
@@ -42,40 +42,40 @@ function updateCurrency(appPanel, data) {
   currency2.forEach(element => {
     element.innerHTML = data.pair.slice(4);
   });
-}
+};
 
 //Check & update number of price digits if shorter than needed (digitsNo)
 
-function updateSellPriceDigits(digitsNo, sellPrV) {
-  if (sellPrV.length < digitsNo) {
-    for (let j = 0; j < digitsNo - sellPrV.length + 1; j++) {
-      sellPrV += "0";
+const updateSellPriceDigits = (digitsNo, sellPr) => {
+  if (sellPr.length < digitsNo) {
+    for (let j = 0; j < digitsNo - sellPr.length + 1; j++) {
+      sellPr += "0";
     }
   }
-  return sellPrV;
-}
+  return sellPr;
+};
 
-function updateBuyPriceDigits(digitsNo, buyPrV) {
-  if (buyPrV.length < digitsNo) {
-    for (let k = 0; k < digitsNo - buyPrV.length + 1; k++) {
-      buyPrV += "0";
+const updateBuyPriceDigits = (digitsNo, buyPr) => {
+  if (buyPr.length < digitsNo) {
+    for (let k = 0; k < digitsNo - buyPr.length + 1; k++) {
+      buyPr += "0";
     }
   }
-  return buyPrV;
-}
+  return buyPr;
+};
 
 // Update buy price to change arrow color
 //Add new price property to datasource
-function addNewPriceToDatasource() {
+const addNewPriceToDatasource = () => {
   for (j = 0; j < datasource.length; j++) {
     datasource[j].newPrice = datasource[j].buy;
   }
-}
+};
 addNewPriceToDatasource();
 
 //Assign arrow color to buy price deviation
 
-function updateArrowColor(arrowElement, currentBuyPrice, newBuyPr) {
+const updateArrowColor = (arrowElement, currentBuyPrice, newBuyPr) => {
   let arr = arrowElement.querySelector(".arrow-box").firstElementChild;
   arr.classList.remove("fa-caret-up");
   arr.classList.remove("fa-caret-down");
@@ -87,11 +87,11 @@ function updateArrowColor(arrowElement, currentBuyPrice, newBuyPr) {
     arr.classList.remove("fa-caret-up");
     arr.classList.remove("fa-caret-down");
   }
-}
+};
 
 //Update the data on panels
 
-function panelDataUpdate() {
+const panelDataUpdate = () => {
   for (let i = 0; i < datasource.length; i++) {
     //price digits amount
     let digit = 7;
@@ -119,15 +119,16 @@ function panelDataUpdate() {
 
     updateArrowColor(currentPanel, currentBuyPrNum, newBuyPrice);
   }
-}
+};
 
 panelDataUpdate();
 
 //Update new buying price +- 10%
-let refreshBuyPrice = function() {
+const refreshBuyPrice = function() {
   for (let m = 0; m < datasource.length; m++) {
     //Pick from 0 to 1
     let random = Math.floor(Math.random() * 2);
+    // diff = 1 -> subtract 10%
     if (random === 0) {
       datasource[m].buy = datasource[m].newPrice;
       datasource[m].newPrice -= 0.1 * datasource[m].newPrice;
@@ -149,26 +150,30 @@ let refreshBuyPrice = function() {
 };
 
 //Price update interval assignment to button
-const testBtn = document.getElementById("test_btn");
-let running = false;
-let testInterval;
+const testArrowChanges = () => {
+  const testBtn = document.getElementById("test_btn");
+  let running = false;
+  let testInterval;
 
-function startTesting() {
-  running = true;
-  testInterval = setInterval(refreshBuyPrice, 1000);
-}
+  const startTesting = () => {
+    running = true;
+    testInterval = setInterval(refreshBuyPrice, 1000);
+  };
 
-function stopTesting() {
-  running = false;
-  clearInterval(testInterval);
-}
+  const stopTesting = () => {
+    running = false;
+    clearInterval(testInterval);
+  };
 
-function testBtnClicked() {
-  if (running === true) {
-    stopTesting();
-  } else {
-    startTesting();
-  }
-}
+  const testBtnClicked = () => {
+    if (running === true) {
+      stopTesting();
+    } else {
+      startTesting();
+    }
+  };
 
-testBtn.addEventListener("click", testBtnClicked);
+  testBtn.addEventListener("click", testBtnClicked);
+};
+
+testArrowChanges();
